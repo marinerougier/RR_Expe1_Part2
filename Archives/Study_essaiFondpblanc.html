@@ -29,10 +29,29 @@ DESCRIPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #jspsych-html-slider-response-next {
     margin: 0px;
   }
-  .imgJudge {
+  .imgPreview {
     width: 300px;
     margin: 0px;
     padding: 0px;
+    top: 200px;
+  }
+   .imgJudge {
+  	position: fixed;
+    width: 300px;
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left:39%;
+    z-index: 2;
+  }
+  .imgBack {
+    position: fixed;
+    width: 70%; 
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left:15%;
+    z-index: 2;
   }
   .jspsych-content-wrapper {
     width: 900px;
@@ -484,13 +503,13 @@ var imgLink_sbgp_Av_yellow_G1Y = [
   preloadimages.push(CIsStims_preview);
 
   // CIs stims
-  CIsStims_avg = CIsStims_avg.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
-  CIsStims_subgroup = CIsStims_subgroup.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
-  CIsStims_preview = CIsStims_preview.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
+  CIsStims_avg_preview = CIsStims_avg.map(function(e) {return {imgHtml: "<img class='imgPreview' src='" + e + "'>"}});
+  CIsStims_preview = CIsStims_preview.map(function(e) {return {imgHtml: "<img class='imgPreview' src='" + e + "'>"}});
  
  // randomize order
   CIsStims_avg = _.shuffle(CIsStims_avg);
   CIsStims_subgroup = _.shuffle(CIsStims_subgroup);
+  CIsStims_avg_preview = _.shuffle(CIsStims_avg_preview);
   CIsStims_preview = _.shuffle(CIsStims_preview);
 
   // EXPERIMENT --------------------------------------------------------------------------------------------------------
@@ -546,6 +565,10 @@ var imgLink_sbgp_Av_yellow_G1Y = [
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
+      on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+       }
   };
 
   /* PART 1 */
@@ -562,19 +585,31 @@ var imgLink_sbgp_Av_yellow_G1Y = [
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
+      on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+       }
   };
 
   /* PREVIEW CIS */
   var previewCI_avg = {
-    timeline_variables: CIsStims_avg,
+    timeline_variables: CIsStims_preview, 
     choices: jsPsych.NO_KEYS,
     trial_duration: 2000,
     post_trial_gap: 100,
     timeline: [{
       type: 'html-keyboard-response',
       stimulus: function() {return jsPsych.timelineVariable('imgHtml', true)},
+      on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+       }
     }]
   };
+
+  CIsStims_avg = CIsStims_avg.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
+  CIsStims_subgroup = CIsStims_subgroup.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
+
 
   /* JUDGMENTS INSTRUCTIONS */
   var jugmentInst_avg_part1 = {
@@ -609,10 +644,12 @@ items_part12 = _.shuffle(items_part12);
   CIsStims_avg.map(function(ciImg){
     var likert_trial = {
         type: 'survey-likert',
-        preamble: ciImg.imgHtml,
+        preamble: "<img class='imgBack' src='stimuli/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: items_part12,
         button_label: 'Continue',
         on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-content").css("max-width", "100%");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
@@ -650,6 +687,7 @@ items_part12 = _.shuffle(items_part12);
       return html;
     },
       on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
           $(".jspsych-content").css("max-width", "90%");
        }
   };
@@ -685,10 +723,12 @@ items_part12 = _.shuffle(items_part12);
   CIsStims_subgroup.map(function(ciImg){
     var likert_trial = {
         type: 'survey-likert',
-        preamble: ciImg.imgHtml,
+        preamble: "<img class='imgBack' src='stimuli/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: items_part12,
         button_label: 'Continue',
         on_load: function() {
+        	window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-content").css("max-width", "100%");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
@@ -727,6 +767,7 @@ items_part12 = _.shuffle(items_part12);
       return html;
     },
           on_load: function() {
+          $(".jspsych-content").css("margin-top", "200px");
           $(".jspsych-content").css("max-width", "90%");
        }
   };
@@ -804,10 +845,12 @@ items_part12 = _.shuffle(items_part12);
   CIsStims_avg.map(function(ciImg){
     var likert_trial = {
         type: 'survey-likert',
-        preamble: ciImg.imgHtml,
+        preamble: "<img class='imgBack' src='stimuli/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: items_part34,
         button_label: 'Continue',
         on_load: function() {
+        	window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-content").css("max-width", "100%");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
@@ -850,6 +893,7 @@ items_part12 = _.shuffle(items_part12);
       return html;
     },
       on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
           $(".jspsych-content").css("max-width", "90%");
        }
   };
@@ -885,10 +929,12 @@ items_part12 = _.shuffle(items_part12);
   CIsStims_subgroup.map(function(ciImg){
     var likert_trial = {
         type: 'survey-likert',
-        preamble: ciImg.imgHtml,
+        preamble: "<img class='imgBack' src='stimuli/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: items_part34,
         button_label: 'Continue',
         on_load: function() {
+        	window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-content").css("max-width", "100%");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
@@ -926,6 +972,10 @@ items_part12 = _.shuffle(items_part12);
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
+      on_load: function() {
+      	  $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+       }
   };
 
 
@@ -1017,10 +1067,10 @@ items_part12 = _.shuffle(items_part12);
   debrief += "<a href='https://app.prolific.com/submissions/complete?cc=7B9D5899' target='_blank'>click here</a>";
 
   // TIMELINE ----------------------------------------------------------------------------------------------------------
-  timeline.push(consent);
+  //timeline.push(consent);
   timeline.push(activeFullscreen);
-  timeline.push(instr_gene);
-  timeline.push(previewCIinst_avg_part1);
+  //timeline.push(instr_gene);
+  //timeline.push(previewCIinst_avg_part1);
   timeline.push(previewCI_avg);
   timeline.push(jugmentInst_avg_part1);
   timeline.push(judgments_avg_part1);
